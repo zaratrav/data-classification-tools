@@ -1,86 +1,432 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Data Classification Guide | PII, PHI, PCI, Labeling & Discovery</title>
-<meta name="description" content="Complete data classification guide including PII, PHI, PCI, data discovery, inventory, mapping, labeling, content inspection and DLP patterns.">
-<meta name="keywords" content="data classification guide, data classification policy, PII guide, PHI guide, PCI data, data discovery, data inventory, data mapping, data labeling, content inspection, regex DLP patterns">
-<meta name="google-site-verification" content="PkLa_ViOo6FAHpvh8SacceMb95o9tePRdrqLNBz9X1M" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="PkLa_ViOo6FAHpvh8SacceMb95o9tePRdrqLNBz9X1M" />
+    <title>Data Classification & PII: Complete Guide to Identifying and Protecting Personal Information</title>
+    <meta name="description" content="Complete guide to data classification, PII identification, PHI, PCI, and regulatory compliance. Learn to classify, discover, and protect sensitive data.">
+    <meta name="keywords" content="data classification, PII, personal identifiable information, PHI, PCI, data classification levels, GDPR, CCPA, data protection, sensitive data">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <header class="header">
+        <div class="container">
+            <h1>Data Classification & PII: Complete Guide to Identifying and Protecting Sensitive Data</h1>
+            <p class="subtitle">Learn to identify, classify, and protect personally identifiable information across your organization</p>
+        </div>
+    </header>
 
-<h1>Data Classification & Protection Tools</h1>
 
-<h2>Available Resources</h2>
-<ul>
-<li><a href="#">Data Classification Guide</a></li>
-<li><a href="#">Classification Policy</a></li>
-<li><a href="#">Sensitive Data Types</a></li>
-<li><a href="#">PII Guide</a></li>
-<li><a href="#">PHI Guide</a></li>
-<li><a href="#">PCI Data Guide</a></li>
-<li><a href="#">Intellectual Property Protection</a></li>
-<li><a href="#">Data Discovery Guide</a></li>
-<li><a href="#">Data Inventory Guide</a></li>
-<li><a href="#">Data Mapping Guide</a></li>
-<li><a href="#">Data Labeling Guide</a></li>
-<li><a href="#">Content Inspection Guide</a></li>
-<li><a href="#">Fingerprinting Data Guide</a></li>
-<li><a href="#">Regex DLP Patterns</a></li>
-</ul>
+<main>
+    <section class="intro">
+        <div class="container">
+            <h2>Master Data Classification and PII Protection</h2>
+            <p>
+                Data breaches expose millions of personal records yearly, costing organizations billions in damages and legal liability. 
+                The first step to protecting data is knowing what you have. Data classification helps you identify sensitive information—PII, PHI, PCI, 
+                trade secrets—and enforce appropriate security controls. This guide covers everything you need to classify, discover, and protect 
+                sensitive data in your organization.
+            </p>
+        </div>
+    </section>
 
-<h2>About Data Classification</h2>
-<p>
-Data classification is the process of identifying and categorizing data based on sensitivity and risk.
-</p>
+    <!-- PII FRAMEWORK VISUALIZER -->
+    <section class="featured-tool">
+        <div class="container">
+            <h2>PII Classification Framework</h2>
+            <p>Interactive visualization of PII types, definitions, examples, and regulatory protections.</p>
+            
+            <div class="pii-visualizer">
+                <div class="filter-controls">
+                    <label for="filterType">Filter by Type:</label>
+                    <select id="filterType" onchange="filterPII()">
+                        <option value="all">All PII Types</option>
+                        <option value="direct">Direct Identifiers</option>
+                        <option value="quasi">Quasi-Identifiers</option>
+                        <option value="sensitive">Sensitive Information</option>
+                    </select>
+                </div>
 
-<p>
-Sensitive data includes PII, PHI, PCI data, and intellectual property that require protection.
-</p>
+                <div class="pii-cards" id="piiCards"></div>
+            </div>
+        </div>
+    </section>
 
-<p>
-Data discovery and inventory help organizations understand where data is stored and how it flows.
-</p>
+    <section class="guide">
+        <div class="container">
+            <h2>What is Data Classification & PII?</h2>
+            
+            <h3>Understanding Data Classification</h3>
+            <p>
+                Data classification is the systematic process of identifying, analyzing, and categorizing data based on its sensitivity, value, 
+                and risk. Classification enables organizations to apply appropriate security controls—encryption, access controls, retention policies—
+                without over-securing low-risk data or under-protecting critical information.
+            </p>
 
-<p>
-Data mapping provides visibility into data movement across systems and environments.
-</p>
+            <h3>What is PII (Personal Identifiable Information)?</h3>
+            <p>
+                PII is any information that can identify an individual. This includes obvious identifiers (name, SSN, email) and quasi-identifiers 
+                (ZIP code, birth date) that combined can re-identify someone. Different regulations define PII differently:
+            </p>
+            <ul style="list-style-position: inside; color: var(--text-light); line-height: 1.8;">
+                <li><strong>GDPR (Europe):</strong> Personal data = any info relating to identified/identifiable person</li>
+                <li><strong>CCPA (California):</strong> Personal information = info identifying, relating to, or could reasonably link to consumer</li>
+                <li><strong>HIPAA (Healthcare):</strong> PHI = Protected Health Information in medical records</li>
+                <li><strong>PCI-DSS (Payment):</strong> PCI data = credit card numbers, CVV, track data</li>
+            </ul>
 
-<p>
-Labeling and tagging enable automated enforcement of security policies.
-</p>
+            <h3>Types of PII: The Spectrum</h3>
+            <div class="pii-spectrum">
+                <div class="spectrum-item">
+                    <h4>🔴 Direct Identifiers</h4>
+                    <p>Directly identify a person (name, SSN, email, phone, passport). Highest risk if exposed.</p>
+                </div>
+                <div class="spectrum-item">
+                    <h4>🟠 Quasi-Identifiers</h4>
+                    <p>Can identify when combined (ZIP + birth date + gender). Medium risk; re-identification possible.</p>
+                </div>
+                <div class="spectrum-item">
+                    <h4>🟡 Sensitive Information</h4>
+                    <p>Medical records, financial info, biometric data. High sensitivity even without direct identification.</p>
+                </div>
+                <div class="spectrum-item">
+                    <h4>🟢 Non-Sensitive Data</h4>
+                    <p>Public information (company name, public phone number). Low risk, typically unregulated.</p>
+                </div>
+            </div>
 
-<p>
-Content inspection, fingerprinting, and regex patterns help detect sensitive information in real time.
-</p>
+            <h3>Data Classification Levels</h3>
+            <p>
+                Organizations typically classify data into 4 levels based on sensitivity and impact of unauthorized access:
+            </p>
+            <div class="classification-levels">
+                <div class="level-card">
+                    <h4>Level 1: Public</h4>
+                    <p><strong>Definition:</strong> Information available to the public with no restriction</p>
+                    <p><strong>Examples:</strong> Marketing materials, public website content, published research</p>
+                    <p><strong>Controls:</strong> No encryption required, can be shared freely</p>
+                    <p><strong>Retention:</strong> No specific requirements</p>
+                </div>
+                <div class="level-card">
+                    <h4>Level 2: Internal</h4>
+                    <p><strong>Definition:</strong> Information for internal use only, not sensitive</p>
+                    <p><strong>Examples:</strong> Internal policies, org charts, general meeting notes</p>
+                    <p><strong>Controls:</strong> Restricted to employees, basic access controls</p>
+                    <p><strong>Retention:</strong> Follow policy; typically 3-7 years</p>
+                </div>
+                <div class="level-card">
+                    <h4>Level 3: Confidential</h4>
+                    <p><strong>Definition:</strong> Sensitive business data; unauthorized access harmful</p>
+                    <p><strong>Examples:</strong> Customer lists, pricing, contracts, financial records, employee data</p>
+                    <p><strong>Controls:</strong> Strong authentication, encryption at rest/in transit, audit logging</p>
+                    <p><strong>Retention:</strong> Legally required period (typically 5-10 years)</p>
+                </div>
+                <div class="level-card">
+                    <h4>Level 4: Restricted</h4>
+                    <p><strong>Definition:</strong> Highly sensitive; breach causes severe harm or legal liability</p>
+                    <p><strong>Examples:</strong> SSNs, credit cards, health records, passwords, encryption keys</p>
+                    <p><strong>Controls:</strong> Maximum encryption, multi-factor auth, minimal access, real-time monitoring</p>
+                    <p><strong>Retention:</strong> Minimal (delete immediately after use if possible)</p>
+                </div>
+            </div>
 
-<h2>Related Searches</h2>
-<ul>
-<li>data classification levels examples</li>
-<li>pii vs phi vs pci difference</li>
-<li>data discovery tools guide</li>
-<li>data labeling best practices</li>
-<li>dlp regex patterns examples</li>
-<li>data mapping process cybersecurity</li>
-</ul>
+            <h3>Key Sensitive Data Types Beyond PII</h3>
+            <ul style="list-style-position: inside; color: var(--text-light); line-height: 1.8;">
+                <li><strong>PHI (Protected Health Information):</strong> Medical records, diagnoses, treatment info (HIPAA regulated)</li>
+                <li><strong>PCI Data:</strong> Credit card numbers, CVV, cardholder names (PCI-DSS regulated)</li>
+                <li><strong>Financial Records:</strong> Bank accounts, tax returns, salary info (GLBA regulated)</li>
+                <li><strong>Biometric Data:</strong> Fingerprints, DNA, iris scans, voice recordings (increasingly regulated)</li>
+                <li><strong>Trade Secrets:</strong> Proprietary algorithms, source code, customer strategies</li>
+                <li><strong>Intellectual Property:</strong> Patents, copyrights, trademarks, design docs</li>
+            </ul>
 
-<h2>More Keywords</h2>
-<p>
-data protection tools, information security, compliance tools,
-data governance, enterprise security,
-modern cybersecurity practices
-</p>
+            <h3>Regulations Protecting PII</h3>
+            <div class="regulations-grid">
+                <div class="reg-card">
+                    <h4>🇪🇺 GDPR (General Data Protection Regulation)</h4>
+                    <p><strong>Scope:</strong> EU residents' personal data</p>
+                    <p><strong>Key Rights:</strong> Right to be forgotten, data portability, consent</p>
+                    <p><strong>Penalties:</strong> Up to €20M or 4% revenue (whichever higher)</p>
+                    <p><strong>Breach Notification:</strong> 72 hours</p>
+                </div>
+                <div class="reg-card">
+                    <h4>🇺🇸 CCPA (California Consumer Privacy Act)</h4>
+                    <p><strong>Scope:</strong> California residents' personal data</p>
+                    <p><strong>Key Rights:</strong> Know, delete, opt-out, non-discrimination</p>
+                    <p><strong>Penalties:</strong> $2,500 per violation, $7,500 intentional</p>
+                    <p><strong>Breach Notification:</strong> Without unreasonable delay</p>
+                </div>
+                <div class="reg-card">
+                    <h4>🏥 HIPAA (Health Insurance Portability & Accountability Act)</h4>
+                    <p><strong>Scope:</strong> Protected Health Information (PHI)</p>
+                    <p><strong>Key Rights:</strong> Privacy, security, breach notification</p>
+                    <p><strong>Penalties:</strong> $100-$50,000 per violation, up to $1.5M/year</p>
+                    <p><strong>Breach Notification:</strong> Without unreasonable delay</p>
+                </div>
+                <div class="reg-card">
+                    <h4>💳 PCI-DSS (Payment Card Industry Data Security Standard)</h4>
+                    <p><strong>Scope:</strong> Payment card data handling</p>
+                    <p><strong>Key Requirements:</strong> Encryption, access controls, logging, scanning</p>
+                    <p><strong>Penalties:</strong> $5,000-$100,000/month, account suspension</p>
+                    <p><strong>Audits:</strong> Annual, quarterly, or monthly depending on volume</p>
+                </div>
+            </div>
 
-<footer>
-<p>
-data classification tools,
-data protection systems,
-information security tools,
-compliance solutions,
-modern security tools
-</p>
+            <h3>How to Identify PII in Your Organization</h3>
+            <p>
+                Implementing data classification requires a systematic approach:
+            </p>
+            <ol style="list-style-position: inside; color: var(--text-light); line-height: 1.8;">
+                <li><strong>Data Discovery:</strong> Scan systems to find where data lives (databases, file shares, emails, cloud apps)</li>
+                <li><strong>Data Inventory:</strong> Catalog all data sources and create inventory of what exists</li>
+                <li><strong>Data Mapping:</strong> Track how data flows between systems (data lineage)</li>
+                <li><strong>Content Inspection:</strong> Use regex patterns, fingerprinting, or ML to identify sensitive content</li>
+                <li><strong>Classification:</strong> Apply sensitivity labels based on content and context</li>
+                <li><strong>Enforcement:</strong> Set access controls, encryption, retention policies per classification</li>
+                <li><strong>Monitoring:</strong> Continuous auditing to catch misclassified or new sensitive data</li>
+            </ol>
+
+            <h3>Best Practices for PII Protection</h3>
+            <div class="best-practices">
+                <div class="practice-card">
+                    <h4>✅ Minimize Data Collection</h4>
+                    <p>Only collect PII you actually need. Less data = less risk if breached.</p>
+                </div>
+                <div class="practice-card">
+                    <h4>✅ Encrypt at Rest & In Transit</h4>
+                    <p>Use AES-256 for stored data, TLS 1.2+ for data in motion. Encryption is mandatory for Level 4 data.</p>
+                </div>
+                <div class="practice-card">
+                    <h4>✅ Implement Least Privilege Access</h4>
+                    <p>Only employees needing access to PII get it. Audit access quarterly.</p>
+                </div>
+                <div class="practice-card">
+                    <h4>✅ Enable Multi-Factor Authentication</h4>
+                    <p>MFA required for accessing PII systems. Prevents credential theft from compromising data.</p>
+                </div>
+                <div class="practice-card">
+                    <h4>✅ Data Retention & Deletion</h4>
+                    <p>Delete PII when no longer needed. Set automatic retention limits (e.g., customer data = 3 years max).</p>
+                </div>
+                <div class="practice-card">
+                    <h4>✅ Regular Security Audits</h4>
+                    <p>Quarterly audits of data access, classification accuracy, and compliance. Penetration testing annually.</p>
+                </div>
+                <div class="practice-card">
+                    <h4>✅ Incident Response Plan</h4>
+                    <p>Document breach response procedures. Know who to notify (regulators, customers) and within what timeframe.</p>
+                </div>
+                <div class="practice-card">
+                    <h4>✅ Employee Training</h4>
+                    <p>Annual security training on data classification, phishing, and PII handling. Most breaches start with humans.</p>
+                </div>
+            </div>
+
+            <h3>Data Classification vs Data Governance vs DLP</h3>
+            <p>
+                These terms often get confused but serve different purposes:
+            </p>
+            <ul style="list-style-position: inside; color: var(--text-light); line-height: 1.8;">
+                <li><strong>Data Classification:</strong> Identify and label data by sensitivity (what you have)</li>
+                <li><strong>Data Governance:</strong> Policies for managing data lifecycle (who owns what, retention rules)</li>
+                <li><strong>DLP (Data Loss Prevention):</strong> Technology to enforce policies and prevent unauthorized access/exfiltration</li>
+            </ul>
+
+            <h3>PII Compliance Checklist</h3>
+            <div class="checklist">
+                <div class="checklist-section">
+                    <h4>🔍 Discovery & Inventory</h4>
+                    <ul>
+                        <li>☐ Conduct data discovery scan (databases, file shares, cloud)</li>
+                        <li>☐ Create data inventory with locations and volumes</li>
+                        <li>☐ Map data flows between systems</li>
+                        <li>☐ Identify data owners and custodians</li>
+                    </ul>
+                </div>
+                <div class="checklist-section">
+                    <h4>🏷️ Classification & Labeling</h4>
+                    <ul>
+                        <li>☐ Apply sensitivity labels to all data</li>
+                        <li>☐ Document classification rationale</li>
+                        <li>☐ Set retention periods per classification</li>
+                        <li>☐ Review and update annually</li>
+                    </ul>
+                </div>
+                <div class="checklist-section">
+                    <h4>🔐 Technical Controls</h4>
+                    <ul>
+                        <li>☐ Encrypt PII at rest (AES-256)</li>
+                        <li>☐ Encrypt PII in transit (TLS 1.2+)</li>
+                        <li>☐ Implement access controls (role-based)</li>
+                        <li>☐ Enable multi-factor authentication</li>
+                        <li>☐ Set up audit logging and alerting</li>
+                    </ul>
+                </div>
+                <div class="checklist-section">
+                    <h4>📋 Policies & Procedures</h4>
+                    <ul>
+                        <li>☐ Document data classification policy</li>
+                        <li>☐ Create incident response plan</li>
+                        <li>☐ Define breach notification procedures</li>
+                        <li>☐ Document data retention schedules</li>
+                    </ul>
+                </div>
+                <div class="checklist-section">
+                    <h4>👥 People & Process</h4>
+                    <ul>
+                        <li>☐ Train employees on data protection</li>
+                        <li>☐ Conduct phishing simulations</li>
+                        <li>☐ Audit access quarterly</li>
+                        <li>☐ Review incident logs monthly</li>
+                    </ul>
+                </div>
+                <div class="checklist-section">
+                    <h4>📊 Compliance & Audit</h4>
+                    <ul>
+                        <li>☐ Map controls to regulatory requirements</li>
+                        <li>☐ Conduct annual compliance assessment</li>
+                        <li>☐ Perform penetration testing</li>
+                        <li>☐ Document audit findings and remediation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="resources">
+        <div class="container">
+            <h2>Resources & Related Guides</h2>
+            
+            <h3>Official Documentation & Standards</h3>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h4><a href="https://www.dol.gov/general/ppii" target="_blank">📋 US Department of Labor - PII Definition</a></h4>
+                    <p>Official government definition and guidance on personal identifiable information.</p>
+                </div>
+                <div class="resource-card">
+                    <h4><a href="https://gdpr-info.eu/" target="_blank">🇪🇺 GDPR Official Text</a></h4>
+                    <p>Complete text of the General Data Protection Regulation (Europe's privacy law).</p>
+                </div>
+                <div class="resource-card">
+                    <h4><a href="https://www.pcisecuritystandards.org/" target="_blank">💳 PCI Security Standards Council</a></h4>
+                    <p>Official PCI-DSS standards, assessor resources, and compliance tools.</p>
+                </div>
+                <div class="resource-card">
+                    <h4><a href="https://www.hhs.gov/hipaa" target="_blank">🏥 HHS HIPAA Compliance Guide</a></h4>
+                    <p>US Department of Health and Human Services HIPAA guidance and resources.</p>
+                </div>
+            </div>
+
+            <h3>Other Related Guides</h3>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h4><a href="#">📊 Data Discovery Guide</a></h4>
+                    <p>How to scan systems and find where sensitive data is stored.</p>
+                </div>
+                <div class="tool-card">
+                    <h4><a href="#">📑 Data Inventory & Mapping</a></h4>
+                    <p>Creating comprehensive data inventory and understanding data flow.</p>
+                </div>
+                <div class="tool-card">
+                    <h4><a href="#">🏷️ Data Labeling Best Practices</a></h4>
+                    <p>Effective labeling and tagging strategies for data classification.</p>
+                </div>
+                <div class="tool-card">
+                    <h4><a href="#">🔍 Content Inspection Methods</a></h4>
+                    <p>Regex patterns and techniques for identifying PII in documents.</p>
+                </div>
+                <div class="tool-card">
+                    <h4><a href="#">🛡️ Data Loss Prevention (DLP)</a></h4>
+                    <p>Tools and strategies to prevent unauthorized PII access and exfiltration.</p>
+                </div>
+                <div class="tool-card">
+                    <h4><a href="#">🔐 Data Encryption Guide</a></h4>
+                    <p>Encryption standards, key management, and best practices for protecting PII.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faqs">
+        <div class="container">
+            <h2>Frequently Asked Questions About Data Classification & PII</h2>
+
+            <div class="faq-item">
+                <h3>What's the difference between PII and PHI?</h3>
+                <p>
+                    PII is general personally identifiable information (name, email, SSN). PHI is Protected Health Information—medical records and health data 
+                    regulated under HIPAA. All PHI is PII, but not all PII is PHI. Healthcare organizations handle both.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is anonymized data still PII?</h3>
+                <p>
+                    Not if truly anonymized (irreversibly de-identified). However, "pseudo-anonymized" (de-identified but reversible) is still considered PII 
+                    under GDPR. Be cautious—studies show aggregated data can often be re-identified with outside information.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How long must we keep PII?</h3>
+                <p>
+                    Depends on context and regulation. GDPR: "no longer than necessary." CCPA: typically until business purpose complete. 
+                    Generally: customer data 3-5 years, employee data 5-7 years, financial records 7 years. Check your specific regulations.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is an employee's home address PII?</h3>
+                <p>
+                    Yes, if linked to identity. Home addresses alone are typically not considered high-risk PII, but combined with name + phone, they enable identification. 
+                    Classify as Level 3 (Confidential) or higher depending on sensitivity.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What triggers a breach notification requirement?</h3>
+                <p>
+                    Unauthorized access to PII, even if not exfiltrated. GDPR: notify within 72 hours. CCPA: "without unreasonable delay." 
+                    You must notify customers and regulators. Check your specific jurisdiction requirements.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can we use hashing/masking instead of encryption?</h3>
+                <p>
+                    Hashing (one-way) is good for passwords but can't be reversed for legitimate uses. Masking (partial display) helps but original data must be 
+                    encrypted. For regulatory compliance, encryption is generally required for PII at rest.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is IP address PII?</h3>
+                <p>
+                    GDPR considers it PII (dynamic IPs linked to ISP records = identification). CCPA less clear. Treat IP addresses as Level 2-3 data. 
+                    If combined with user session logs, it becomes high-risk.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Who is responsible for data classification in our organization?</h3>
+                <p>
+                    Typically joint effort: data owners (business leaders) determine sensitivity, security implements controls, legal/compliance ensures regulatory fit. 
+                    Create a data governance committee with representatives from each function.
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2026 Data Classification & PII Guide. Protect data smarter.</p>
+    </div>
 </footer>
+
+<script src="app.js"></script>
 
 </body>
 </html>
